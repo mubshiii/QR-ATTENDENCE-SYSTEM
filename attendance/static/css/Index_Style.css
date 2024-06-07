@@ -32,11 +32,12 @@ main {
 }
 
 .container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 80px;
+  background-color: #fbcaca;
+  box-shadow: 0 0 100px rgba(16, 1, 1, 0.1);
+  text-align: center;
 }
 
 .attendance-container {
@@ -199,4 +200,31 @@ button {
   main {
     flex-direction: column;
   }
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #110101;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.login-heading {
+  
+  margin-top: 0;
 }

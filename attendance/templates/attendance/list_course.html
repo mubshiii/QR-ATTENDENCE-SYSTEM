@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Courses</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/list_course.css' %}">
 </head>
 <body>
-    <h1>Available Courses</h1>
-    <form method="post" action="{% url 'view_attendance' %}">
-        {% csrf_token %}
-        <select name="course_code">
-            {% for course in courses %}
-                <option value="{{ course.id }}">{{ course.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Enroll</button>
-    </form>
+    <header class="header">
+        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
+        <h2>Attendance Portal</h2>
+    </header>
+    <div class="container">
+        <h3>Available Courses</h3>
+        <form method="post" action="{% url 'view_attendance' %}">
+            {% csrf_token %}
+            <label for="course">Select Course:</label>
+            <select id="course" name="course_code">
+                {% for course in courses %}
+                    <option value="{{ course.code }}">{{ course.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">View Attendance</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
 </body>
 </html>

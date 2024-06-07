@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/Index_Style.css' %}">
+    <title>Mark Attendance</title>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
+        <h2>Attendance Portal</h2>
+    </header>
+    <div class="container">
+        <h1>Mark Attendance</h1>
+        <form method="post" action="{% url 'mark_attendance' %}">
+            {% csrf_token %}
+            <input type="hidden" name="course_code" value="{{ course_code }}">
+            <label for="student_id">Student ID:</label>
+            <input type="text" id="student_id" name="student_id" required>
+            <button type="submit">Mark Attendance</button>
+        </form>
+    </div>
+    <footer class="footer">
+      <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
+  
+</body>
+</html>

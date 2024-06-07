@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Home</title>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/Index_Style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
+        <h2>Attendance Portal</h2>
+      </header>
+    <h1>Welcome, {{ request.user.username }}!</h1>
+    <div class="actions">
+        <a href="{% url 'view_attendance' %}">View Attendance</a><br>
+        <a href="{% url 'generate_qr_code' %}">Generate Attendance</a><br>
+        <!-- Add more buttons or links as needed -->
+    <form method="post" action="{% url 'faculty_logout' %}">
+        {% csrf_token %}
+        <button style="float: right; size: 10px;" type="submit">Logout</button>
+    </form>
+        </div>
+    <footer class="footer">
+      <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
+  
+</body>
+</html>

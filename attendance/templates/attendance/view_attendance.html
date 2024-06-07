@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/Index_Style.css' %}">
+    <title>View Attendance</title>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
+        <h2>Attendance Portal</h2>
+    </header>
+    <div class="container">
+        <h1>Attendance Records</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in attendance_records %}
+                <tr>
+                    <td>{{ record.student.student_id }}</td>
+                    <td>{{ record.student.name }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.ip_address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer class="footer">
+      <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
+  
+</body>
+</html>

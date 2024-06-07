@@ -26,6 +26,14 @@ class Branch(models.Model):
 
     def __str__(self) -> str:
         return self.branch
+    
+class Faculty(models.Model):
+    name = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name
 
 
 class Student(models.Model):

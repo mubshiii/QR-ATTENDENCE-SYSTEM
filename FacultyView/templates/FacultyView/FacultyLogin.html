@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Admin Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/FacultyView/Index_Style.css" />
+    
+</head>
+<body>
+    <header>
+        <h1>Faculty Admin Page</h1>
+    </header>
+    <main>
+        <div class="faculty-container">
+            <h2>Add Faculty Member</h2>
+            <form method="POST" class="faculty-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Faculty</button>
+            </form>
+        </div>
+        <div class="faculty-list">
+            <h2>Faculty List</h2>
+            <ul class="list-group">
+                {% for faculty in faculties %}
+                <li class="list-group-item">
+                    {{ faculty.name }} - {{ faculty.subject }} - {{ faculty.email }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p>Faculty Management System &copy; 2023</p>
+    </footer>
+</body>
+</html>

@@ -25,14 +25,14 @@ body {
 }
 
 .header {
-  background-color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   padding: 20px 0;
   text-align: center;
 }
 
 .footer {
-  background-color: #0350a1;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   text-align: center;
   padding: 10px 0;

@@ -20,7 +20,7 @@ body {
 }
 
 .header {
-  background-color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   padding: 20px 0;
   text-align: center;
@@ -72,7 +72,7 @@ body {
 }
 
 .submit-button {
-  background-color: #007bff;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -84,11 +84,11 @@ body {
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
 }
 
 .footer {
-  background-color: #0350a1;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   text-align: center;
   padding: 10px 0;

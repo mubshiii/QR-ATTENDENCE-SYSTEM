@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from .models import Faculty
+from .forms import FacultyForm
+from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Student
@@ -58,7 +61,23 @@ def add_manually(request):
             "students": students,
         },
     )
+def login(request):
+    return render(request,'FacultyView/login2.html')
+    
 
-# Create your views here.
-def faculty(request):
-    return render(request, "FacultyView/faculty.html",)
+def FacultyLogin(request):
+    
+    return render(request,'FacultyView/FacultyLogin.html')
+
+def faculty_list(request):
+    faculties = Faculty.objects.all()
+    if request.method == 'POST':
+        form = FacultyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('faculty_list')
+    else:
+        form = FacultyForm()
+    
+    return render(request, 'faculty_list.html', {'faculties': faculties, 'form': form})
+    

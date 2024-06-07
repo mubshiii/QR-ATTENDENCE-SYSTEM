@@ -1,0 +1,64 @@
+/* attendance/static/attendance/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header button {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #ff3333;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+main label {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+main select {
+    padding: 10px;
+    font-size: 16px;
+}
+
+main button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+main button:hover {
+    background-color: #45a049;
+}

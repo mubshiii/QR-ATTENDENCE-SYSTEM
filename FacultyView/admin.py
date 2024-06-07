@@ -8,4 +8,3 @@ admin.site.register(Student)
 admin.site.register(Section)
 admin.site.register(Year)
 admin.site.register(Branch)
-

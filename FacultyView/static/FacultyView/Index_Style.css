@@ -13,7 +13,7 @@ body {
 }
 
 header {
-  background-color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   padding: 20px;
   text-align: center;
@@ -87,7 +87,7 @@ main {
 }
 
 .attendance-form::-webkit-scrollbar-thumb {
-  background-color: #0351a5; /* Set the thumb color */
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));; /* Set the thumb color */
 }
 
 .attendance-form::-webkit-scrollbar-track {
@@ -126,22 +126,22 @@ main {
   border: none;
   padding: 0; /* Remove padding */
   font-size: 14px; /* Adjust the font size to control the button size */
-  color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   cursor: pointer;
 }
 
 .delete-button:hover {
-  color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
 }
 
 footer {
-  background-color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   text-align: center;
   padding: 10px;
 }
 button {
-  background-color: #0351a5;
+  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
   color: #fff;
   padding: 10px 20px;
   border: none;

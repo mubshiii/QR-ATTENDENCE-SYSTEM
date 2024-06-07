@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("FacultyView.urls")),
     path("", include("StudentView.urls")),
     
+
 ]

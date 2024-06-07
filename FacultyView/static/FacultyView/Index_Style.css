@@ -13,7 +13,7 @@ body {
 }
 
 header {
-  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+  background: linear-gradient(rgb(91, 2, 192), rgb(14, 10, 22));
   color: #fff;
   padding: 20px;
   text-align: center;
@@ -62,11 +62,6 @@ main {
   height: 280px;
   margin: 20px auto;
   display: block;
-}
-
-.hint {
-  font-size: 16px;
-  color: #666;
 }
 
 .present-list {
@@ -134,14 +129,51 @@ main {
   background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
 }
 
+.attendance-card-submitted {
+  padding: 20px;
+}
+
+.faculty-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30em;
+  height: fit-content;
+}
+
+.faculty-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 30em;
+  height: 80%;
+}
+
+.faculty-card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.hint {
+  font-size: 16px;
+  color: #666;
+}
+
 footer {
-  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+  background: linear-gradient(rgb(91, 2, 192), rgb(14, 10, 22));
   color: #fff;
   text-align: center;
   padding: 10px;
 }
+
 button {
-  background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+  background: linear-gradient(rgb(91, 2, 192), rgb(14, 10, 22));
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -156,8 +188,4 @@ button {
   main {
     flex-direction: column;
   }
-}
-
-.attendance-card-submitted {
-  padding: 20px;
 }

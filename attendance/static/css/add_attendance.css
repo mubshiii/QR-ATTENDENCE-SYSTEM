@@ -1,0 +1,132 @@
+/* Reset some basic elements */
+body, h1, h2, h3, p, form, input, select, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+.header {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #003366;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #003366;
+}
+
+select, input[type="text"] {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+select:focus, input[type="text"]:focus {
+    border-color: #003366;
+    box-shadow: 0 0 8px rgba(0, 51, 102, 0.2);
+    outline: none;
+}
+
+button {
+    padding: 0.75rem;
+    background: linear-gradient(to right, #003366, #4ca1af);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: linear-gradient(to right, #4ca1af, #003366);
+    transform: scale(1.05);
+}
+
+.logout-form {
+    margin-top: 2rem;
+}
+
+.logout-button {
+    width: 100%;
+    background: linear-gradient(to right, #ff4b5c, #ff6b6b);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.logout-button:hover {
+    background: linear-gradient(to right, #ff6b6b, #ff4b5c);
+    transform: scale(1.05);
+}
+
+.footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: #888;
+}
+
+.footer p {
+    font-size: 0.875rem;
+}
+
+
+
+

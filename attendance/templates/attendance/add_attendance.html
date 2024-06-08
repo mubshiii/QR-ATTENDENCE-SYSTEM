@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Attendance</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/add_attendance.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
+        <h2>Attendance Portal</h2>
+    </header>
+    <div class="container">
+        <h3>Add Attendance Manually</h3>
+        <form method="post" action="{% url 'add_attendance' %}">
+            {% csrf_token %}
+            <label for="student_id">Student ID:</label>
+            <input type="text" id="student_id" name="student_id" required>
+
+            <label for="course_code">Course Code:</label>
+            <select id="course_code" name="course_code" required>
+                {% for course in courses %}
+                    <option value="{{ course.code }}">{{ course.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <button type="submit">Add Attendance</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
+</body>
+</html>

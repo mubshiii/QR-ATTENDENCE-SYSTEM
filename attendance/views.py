@@ -123,3 +123,30 @@ def faculty_login(request):
 def faculty_logout(request):
     logout(request)
     return redirect('faculty_login')
+
+@login_required
+def add_attendance(request):
+    if request.method == "POST":
+        student_id = request.POST.get("student_id")
+        course_code = request.POST.get("course_code")
+        date = request.POST.get("date")
+
+        student = get_object_or_404(Student, student_id=student_id)
+        course = get_object_or_404(Course, code=course_code)
+
+        attendance, created = Attendance.objects.get_or_create(
+            student=student,
+            course_code=course,
+            date=date
+        )
+
+        if created:
+            messages.success(request, "Attendance marked successfully.")
+        else:
+            messages.warning(request, "Attendance already marked for this student on this date.")
+
+        return redirect('faculty_home')
+
+    courses = Course.objects.all()
+    return render(request, 'attendance/add_attendance.html', {'courses': courses})
+

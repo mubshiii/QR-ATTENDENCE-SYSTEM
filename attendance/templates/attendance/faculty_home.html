@@ -20,8 +20,11 @@
             <div class="box">
                 <a href="{% url 'generate_qr_code' %}">Generate QR Code</a>
             </div>
+            <div class="box">
+                <a href="{% url 'add_attendance' %}">Add Attendance Manually</a>
+            </div>
         </div>
-        <form method="post" action="{% url 'faculty_logout' %}"class="logout-form">
+        <form method="post" action="{% url 'faculty_logout' %}" class="logout-form">
             {% csrf_token %}
             <button type="submit" class="logout-button">Logout</button>
         </form>

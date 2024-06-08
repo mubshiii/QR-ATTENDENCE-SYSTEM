@@ -1,61 +1,71 @@
-body {
-    font-family: 'Roboto', sans-serif;
+/* Reset some default styles */
+body, h1, h2, h3, p, table, th, td {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 30px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+body {
+    background-color: #f9f9f9;
+    color: #333;
 }
 
 .header {
-    background-color: #004080;
+    background: linear-gradient(rgb(91, 2, 192), rgb(14, 10, 22));
     color: #fff;
     padding: 20px 0;
     text-align: center;
-    border-radius: 8px 8px 0 0;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 36px;
-}
-
-.header h2 {
-    margin: 10px 0;
+.header-title {
     font-size: 24px;
+    margin-bottom: 10px;
 }
 
-table {
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #090000;
+
+}
+
+.attendance-table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
-thead {
-    background-color: #004080;
-    color: #fff;
-}
-
-th, td {
+.attendance-table th,
+.attendance-table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-tbody tr:hover {
+.attendance-table th {
     background-color: #f2f2f2;
 }
 
+.attendance-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
 .footer {
-    background-color: #004080;
-    color: #fff;
     text-align: center;
-    padding: 10px 0;
-    border-radius: 0 0 8px 8px;
+    padding: 20px;
+    background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

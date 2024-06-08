@@ -7,17 +7,11 @@ class Student(models.Model):
     def __str__(self):
         return self.name
 
-class Class(models.Model):
-    code = models.CharField(max_length=100, unique=True, primary_key=True)
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
     
 class Course(models.Model):
     code = models.CharField(max_length=100, unique=True, primary_key=True)
     name = models.CharField(max_length=100)
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+   # class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

@@ -8,7 +8,7 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import Student, Class, Attendance, Course
+from .models import Student,  Attendance, Course
 from io import BytesIO
 import socket
 
@@ -25,6 +25,9 @@ def generate_qr_code(request):
     qr_code_url = None
 
     if course_code:
+        # Validate course code against the database
+        course = get_object_or_404(Course, code=course_code)
+
         # Get the computer's IP address dynamically
         ip_address = socket.gethostbyname(socket.gethostname())
 
@@ -48,7 +51,6 @@ def generate_qr_code(request):
         img_str = base64.b64encode(buffer.getvalue()).decode()
         qr_code_url = f"data:image/png;base64,{img_str}"
 
-
     return render(request, 'attendance/generate_qr.html', {'qr_code_url': qr_code_url})
 
 
@@ -57,38 +59,40 @@ def mark_attendance(request):
     if request.method == "GET":
         course_code = request.GET.get("course_code")
         return render(request, 'attendance/mark_attendance.html', {'course_code': course_code})
-    # Get the client's IP address from the request
-    client_ip = request.META.get('REMOTE_ADDR')
-
-    # Check if the IP has already marked attendance for this class today
-    course_code_value  = request.POST.get("course_code")
-    course_code = get_object_or_404(Course, code=course_code_value)
-    today_date = datetime.date.today()
-
-    # Check if there is an attendance record for this IP, class, and date
-    existing_record = Attendance.objects.filter(
-        ip_address=client_ip,
-        course_code=course_code,
-        date=today_date
-    ).first()
-
-    if existing_record:
-        return HttpResponseForbidden("Attendance already marked for this IP address")
 
     if request.method == "POST":
+        # Get the client's IP address from the request
+        client_ip = request.META.get('REMOTE_ADDR')
+
+        # Check if the IP has already marked attendance for this class today
+        course_code_value = request.POST.get("course_code")
+        course_code = get_object_or_404(Course, code=course_code_value)
+        today_date = datetime.date.today()
+
+        # Check if there is an attendance record for this IP, class, and date
+        existing_record = Attendance.objects.filter(
+            ip_address=client_ip,
+            course_code=course_code,
+            date=today_date
+        ).first()
+
+        if existing_record:
+            return HttpResponseForbidden("Attendance already marked for this IP address")
+
         student_id = request.POST.get("student_id")
-        
+
         # Create an attendance record for the IP, student, class, and date
         student = get_object_or_404(Student, student_id=student_id)
-        
+
         attendance_record = Attendance.objects.create(
             student=student,
-            code=course_code,
+            course_code=course_code,
             date=today_date,
             ip_address=client_ip  # Store the IP address with the attendance record
         )
-        
-        return JsonResponse({"status": "success", "message": "Attendance marked"})
+
+        return redirect('submitted')
+
     return render(request, 'attendance/mark_attendance.html')
 
 @login_required
@@ -97,11 +101,11 @@ def view_attendance(request):
         courses = Course.objects.all()
         return render(request, 'attendance/list_course.html', {'courses': courses})
 
-    course_code = request.POST.get('course_code')
-    # course_code = request.GET.get('course_code')
-    course_code = get_object_or_404(course_code, code=course_code)
-    attendance_records = Attendance.objects.filter(course_code=course_code, date=datetime.date.today())
-    return render(request, 'attendance/view_attendance.html', {'attendance_records': attendance_records})
+    if request.method == "POST":
+        course_code = request.POST.get('course_code')
+        course = get_object_or_404(Course, code=course_code)
+        attendance_records = Attendance.objects.filter(course_code=course, date=datetime.date.today())
+        return render(request, 'attendance/view_attendance.html', {'attendance_records': attendance_records, 'course': course})
 
 def faculty_login(request):
     if request.method == 'POST':

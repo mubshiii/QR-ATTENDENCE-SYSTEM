@@ -1,71 +1,83 @@
-/* Reset some default styles */
-body, h1, h2, h3, p, table, th, td {
+/* view_attendance.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7fa;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-}
-
-body {
-    background-color: #f9f9f9;
     color: #333;
 }
 
-.header {
-    background: linear-gradient(rgb(91, 2, 192), rgb(14, 10, 22));
+header.header {
+    background-color: #343a40;
     color: #fff;
-    padding: 20px 0;
+    padding: 1rem 0;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-title {
-    font-size: 24px;
-    margin-bottom: 10px;
+    margin: 0;
+    font-size: 2.5rem;
 }
 
 .container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
-h2 {
+.container h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #444;
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #090000;
-
 }
 
 .attendance-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-align: left;
 }
 
-.attendance-table th,
-.attendance-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.attendance-table th, .attendance-table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
 }
 
 .attendance-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.attendance-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.attendance-table tbody tr:hover {
-    background-color: #f1f1f1;
+.attendance-table tr:hover {
+    background-color: #e9ecef;
 }
 
 .footer {
     text-align: center;
-    padding: 20px;
-    background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+    padding: 1rem 0;
+    background-color: #343a40;
     color: #fff;
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.no-records {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
 }

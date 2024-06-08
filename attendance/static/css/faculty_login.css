@@ -1,5 +1,5 @@
-/* Reset some basic elements */
-body, h1, h2, h3, p, form, input, select, button {
+/* Reset basic elements */
+body, h1, h2, h3, p, form, input, button {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -27,7 +27,7 @@ body {
     background-color: #003366;
     color: white;
     text-align: center;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     margin-bottom: 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -37,25 +37,29 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.container h3 {
-    margin-bottom: 1.5rem;
+.login-heading {
     font-size: 1.5rem;
+    margin-bottom: 1.5rem;
     color: #003366;
     text-align: center;
 }
 
-form {
+.login-form {
     display: flex;
     flex-direction: column;
 }
 
-label {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: #003366;
+.form-group {
+    margin-bottom: 1.5rem;
 }
 
-input[type="text"], input[type="date"], select {
+label {
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"], input[type="password"] {
     padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -63,11 +67,10 @@ input[type="text"], input[type="date"], select {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-input[type="text"]:focus, input[type="date"]:focus, select:focus {
+input[type="text"]:focus, input[type="password"]:focus {
     border-color: #003366;
     box-shadow: 0 0 8px rgba(0, 51, 102, 0.2);
     outline: none;
-    
 }
 
 button {
@@ -75,12 +78,10 @@ button {
     background: linear-gradient(to right, #003366, #4ca1af);
     color: white;
     border: none;
-    border-radius: 100px;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-    width: 75%;
-    margin-top: 8%;
 }
 
 button:hover {
@@ -92,10 +93,9 @@ button:hover {
     margin-top: 2rem;
     margin-left: 2%;
     text-align: center;
-    color: #fbf7f7;
-
+    color: #f8f7f7;
 }
 
 .footer p {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
 }

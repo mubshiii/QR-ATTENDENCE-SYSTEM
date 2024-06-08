@@ -25,7 +25,7 @@
   }
   
   .header {
-    background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+    background-color: #343a40;
     color: #fff;
     padding: 20px 0;
     text-align: center;
@@ -33,7 +33,7 @@
   
   .footer {
     position: absolute;
-    background:linear-gradient(rgb(91, 2, 192),rgb(14, 10, 22));
+    background-color: #343a40;
     color: #fff;
     text-align: center;
     padding: 10px 0;

@@ -4,41 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Attendance</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/view_attendance.css' %}">
 </head>
 <body>
-    <header class="header">
-        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
-        <h1>Attendance Portal</h1>
-    </header>
-    <div class="container">
-        <h2>Attendance Records for {{ course.name }}</h2>
-        {% if attendance_records %}
-        <table class="attendance-table">
+    <h1>Attendance Records for {{ course.name }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" required>
+        <input type="hidden" name="course_code" value="{{ course_code }}">
+        <button type="submit">View Attendance</button>
+    </form>
+    
+    {% if attendance_records %}
+        <table>
             <thead>
                 <tr>
-                    <th>Student</th>
-                    <th>Date</th>
-                    <th>IP Address</th>
+                    <th>Student Name</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for record in attendance_records %}
-                <tr>
-                    <td>{{ record.student.name }}</td>
-                    <td>{{ record.date }}</td>
-                    <td>{{ record.ip_address }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ record.student.name }}</td>
+                        <td>{{ record.status }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% else %}
-        <p>No attendance records found for this course.</p>
-        {% endif %}
-    </div>
-    <footer class="footer">
-        <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
-    </footer>
+    {% else %}
+        <p>No attendance records found for this date and course.</p>
+    {% endif %}
 </body>
 </html>

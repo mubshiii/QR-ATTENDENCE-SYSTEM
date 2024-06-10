@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available Courses</title>
+    <title>Select Course</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/list_course.css' %}">
 </head>
@@ -13,13 +13,14 @@
         <h2>Attendance Portal</h2>
     </header>
     <div class="container">
-        <h3>Available Courses</h3>
+        <h3>Select Course for {{ date }}</h3>
         <form method="post" action="{% url 'view_attendance' %}">
             {% csrf_token %}
-            <label for="course">Select Course:</label>
-            <select id="course" name="course_code">
+            <input type="hidden" name="date" value="{{ date }}">
+            <label for="course_code">Course:</label>
+            <select id="course_code" name="course_code" required>
                 {% for course in courses %}
-                    <option value="{{ course.code }}">{{ course.name }}</option>
+                    <option value="{{ course.code }}">{{ course.name }} - {{ course.branch.name }} - {{ course.year.year }}</option>
                 {% endfor %}
             </select>
             <button type="submit">View Attendance</button>

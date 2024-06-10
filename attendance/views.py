@@ -98,14 +98,29 @@ def mark_attendance(request):
 @login_required
 def view_attendance(request):
     if request.method == "GET":
-        courses = Course.objects.all()
-        return render(request, 'attendance/list_course.html', {'courses': courses})
+        return render(request, 'attendance/select_date.html')
 
     if request.method == "POST":
+        date_str = request.POST.get('date')
+        try:
+            # Attempt to parse the date in multiple formats
+            date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            try:
+                date = datetime.datetime.strptime(date_str, '%B %d, %Y').date()
+            except ValueError:
+                return render(request, 'attendance/select_date.html', {'error': 'Invalid date format'})
+
+        if 'course_code' not in request.POST:
+            courses = Course.objects.all()
+            return render(request, 'attendance/list_course.html', {'courses': courses, 'date': date})
+
         course_code = request.POST.get('course_code')
         course = get_object_or_404(Course, code=course_code)
-        attendance_records = Attendance.objects.filter(course_code=course, date=datetime.date.today())
-        return render(request, 'attendance/view_attendance.html', {'attendance_records': attendance_records, 'course': course})
+        attendance_records = Attendance.objects.filter(course_code=course, date=date)
+        return render(request, 'attendance/view_attendance.html', {'attendance_records': attendance_records, 'course': course, 'date': date})
+
+
 
 def faculty_login(request):
     if request.method == 'POST':
@@ -149,4 +164,14 @@ def add_attendance(request):
 
     courses = Course.objects.all()
     return render(request, 'attendance/add_attendance.html', {'courses': courses})
+
+def  select_date(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        return redirect('list_course', date=date)
+    return render(request, 'select_date.html')
+
+def list_course(request, date):
+    courses = Course.objects.all()
+    return render(request, 'list_course.html', {'date': date, 'courses': courses})
 

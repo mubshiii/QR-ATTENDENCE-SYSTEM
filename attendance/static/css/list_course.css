@@ -10,7 +10,7 @@ body {
 header.header {
     background-color: #343a40;
     color: #fff;
-    padding: 1rem 0;
+    padding: .5rem 0;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -21,7 +21,7 @@ header.header {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 500px;
     margin: 2rem auto;
     padding: 2rem;
     background: #fff;
@@ -75,7 +75,7 @@ form button:hover {
 
 .footer {
     text-align: center;
-    padding: 1rem 0;
+    padding: .1rem 0;
     background-color: #343a40;
     color: #fff;
     position: fixed;

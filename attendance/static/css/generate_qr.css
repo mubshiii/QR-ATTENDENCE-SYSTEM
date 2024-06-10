@@ -11,9 +11,10 @@ body {
 header.header {
     background-color: #343a40;
     color: #fff;
-    padding: 1rem 0;
+    padding: .1rem 0;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
 }
 
 .header-title {
@@ -22,7 +23,7 @@ header.header {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 400px;
     margin: 2rem auto;
     padding: 2rem;
     background: #fff;
@@ -54,7 +55,7 @@ form input[type="password"],
 form input[type="email"],
 form input[type="number"],
 form select {
-    width: 100%;
+    width: 50%;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
@@ -72,6 +73,7 @@ form button {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 2%;
 }
 
 form button:hover {
@@ -90,8 +92,8 @@ form button:hover {
 
 .footer {
     text-align: center;
-    padding: 1rem 0;
-    background-color: #343a40;
+    padding: .3rem 0;
+    background-color: #34403a;
     color: #fff;
     position: fixed;
     bottom: 0;

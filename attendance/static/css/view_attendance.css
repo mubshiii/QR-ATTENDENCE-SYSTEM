@@ -1,40 +1,32 @@
+/* General styles */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
+    background-color: #f4f4f4;
 }
 
-.header {
-    background-color: #343a40;
-    color: #fff;
-    padding: 20px 0;
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
     text-align: center;
-}
-
-.header-title {
-    margin: 0;
-    font-size: 2em;
+    margin-bottom: 20px;
 }
 
 .container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #0d0101;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 th, td {
-    padding: 10px;
     border: 1px solid #ddd;
+    padding: 8px;
     text-align: left;
 }
 
@@ -46,11 +38,12 @@ th {
     color: red;
 }
 
-.footer {
-    background-color: #343a40;
-    color: #fff;
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
     text-align: center;
-    padding:0.0001rem 0;
+    padding: 10px 0;
     position: fixed;
     bottom: 0;
     width: 100%;

@@ -46,6 +46,7 @@ class Attendance(models.Model):
     course_code = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     ip_address = models.CharField(max_length=45, default="127.0.0.1")
+    status = models.CharField(max_length=10,default=True)
 
     def __str__(self):
         return f"{self.student.name} - {self.course_code.name} - {self.date}"

@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Student,  Attendance, Course
 from io import BytesIO
 import socket
+from django.db.models import Count
 
 @login_required
 def faculty_home(request):
@@ -94,7 +95,6 @@ def mark_attendance(request):
         return redirect('submitted')
 
     return render(request, 'attendance/mark_attendance.html')
-
 @login_required
 def view_attendance(request):
     if request.method == "GET":
@@ -108,6 +108,8 @@ def view_attendance(request):
             try:
                 date = datetime.datetime.strptime(date_str, '%B %d, %Y').date()
             except ValueError:
+                # Log the error for debugging purposes
+                print(f"Invalid date format: {date_str}")
                 return render(request, 'attendance/select_date.html', {'error': 'Invalid date format'})
 
         if 'course_code' not in request.POST:
@@ -116,19 +118,39 @@ def view_attendance(request):
 
         course_code = request.POST.get('course_code')
         course = get_object_or_404(Course, code=course_code)
-        attendance_records = Attendance.objects.filter(course_code=course, date=date).order_by('student__roll_no__number')
-        
-        # Prepare attendance data
-        students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no__number')
+
+        # Get all students in the course
+        students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no')
+
         attendance_data = []
         for student in students:
-            status = "Present" if attendance_records.filter(student=student).exists() else "Absent"
+            total_classes = Attendance.objects.filter(course_code=course, student=student).count()
+            present_classes = Attendance.objects.filter(course_code=course, student=student, status='present').count()
+            attendance_percentage = (present_classes / total_classes) * 100 if total_classes > 0 else 0
+            status = 'present' if attendance_percentage >= 75 else 'absent'
+
+            # Create or update the Attendance record with status
+            attendance, created = Attendance.objects.get_or_create(
+                course_code=course, student=student, date=date,
+                defaults={'status': status}
+            )
+            if not created:
+                attendance.status = status
+                attendance.save()
+
             attendance_data.append({
                 'student': student,
-                'status': status
+                'total_classes': total_classes,
+                'present_classes': present_classes,
+                'attendance_percentage': attendance_percentage,
+                'status': status,
             })
 
-        return render(request, 'attendance/view_attendance.html', {'attendance_data': attendance_data, 'course': course, 'date': date})
+        return render(request, 'attendance/view_attendance.html', {
+            'attendance_data': attendance_data,
+            'course': course,
+            'date': date
+        })
 
 def faculty_login(request):
     if request.method == 'POST':

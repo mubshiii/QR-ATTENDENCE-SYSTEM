@@ -103,7 +103,6 @@ def view_attendance(request):
     if request.method == "POST":
         date_str = request.POST.get('date')
         try:
-            # Attempt to parse the date in multiple formats
             date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
         except ValueError:
             try:
@@ -117,10 +116,19 @@ def view_attendance(request):
 
         course_code = request.POST.get('course_code')
         course = get_object_or_404(Course, code=course_code)
-        attendance_records = Attendance.objects.filter(course_code=course, date=date)
-        return render(request, 'attendance/view_attendance.html', {'attendance_records': attendance_records, 'course': course, 'date': date})
+        attendance_records = Attendance.objects.filter(course_code=course, date=date).order_by('student__roll_no__number')
+        
+        # Prepare attendance data
+        students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no__number')
+        attendance_data = []
+        for student in students:
+            status = "Present" if attendance_records.filter(student=student).exists() else "Absent"
+            attendance_data.append({
+                'student': student,
+                'status': status
+            })
 
-
+        return render(request, 'attendance/view_attendance.html', {'attendance_data': attendance_data, 'course': course, 'date': date})
 
 def faculty_login(request):
     if request.method == 'POST':

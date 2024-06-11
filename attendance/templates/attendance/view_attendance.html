@@ -4,37 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Attendance</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/view_attendance.css' %}">
 </head>
 <body>
-    <h1>Attendance Records for {{ course.name }}</h1>
-    
-    <form method="post">
-        {% csrf_token %}
-        <label for="date">Select Date:</label>
-        <input type="date" id="date" name="date" required>
-        <input type="hidden" name="course_code" value="{{ course_code }}">
-        <button type="submit">View Attendance</button>
-    </form>
-    
-    {% if attendance_records %}
+    <header class="header">
+        <h2 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h2>
+        <h2>Attendance Portal</h2>
+    </header>
+
+    <div class="container">
+        <h1>Attendance for {{ course.name }} on {{ date }}</h1>
         <table>
             <thead>
                 <tr>
+                    <th>Roll Number</th>
                     <th>Student Name</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                {% for record in attendance_records %}
-                    <tr>
+                {% for record in attendance_data %}
+                    <tr class="{% if record.status == 'Absent' %}absent{% endif %}">
+                        <td>{{ record.student.roll_no.number }}</td>
                         <td>{{ record.student.name }}</td>
                         <td>{{ record.status }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-    {% else %}
-        <p>No attendance records found for this date and course.</p>
-    {% endif %}
+    </div>
+
+    <footer class="footer">
+        <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
 </body>
 </html>

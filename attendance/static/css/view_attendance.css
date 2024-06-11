@@ -1,83 +1,57 @@
-/* view_attendance.css */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7fa;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    color: #333;
+    background-color: #f8f9fa;
 }
 
-header.header {
+.header {
     background-color: #343a40;
     color: #fff;
-    padding: 1rem 0;
+    padding: 20px 0;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-title {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 2em;
 }
 
 .container {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    padding: 20px;
 }
 
-.container h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #444;
+h1 {
     text-align: center;
+    color: #0d0101;
 }
 
-.attendance-table {
+table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1rem 0;
-    font-size: 1rem;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
-.attendance-table th, .attendance-table td {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-}
-
-.attendance-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-}
-
-.attendance-table tr:nth-child(even) {
+th {
     background-color: #f2f2f2;
 }
 
-.attendance-table tr:hover {
-    background-color: #e9ecef;
+.absent {
+    color: red;
 }
 
 .footer {
-    text-align: center;
-    padding: 1rem 0;
     background-color: #343a40;
     color: #fff;
+    text-align: center;
+    padding:0.0001rem 0;
     position: fixed;
     bottom: 0;
     width: 100%;
-}
-
-.footer p {
-    margin: 0;
-}
-
-.no-records {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #666;
 }

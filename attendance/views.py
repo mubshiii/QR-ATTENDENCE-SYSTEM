@@ -1,6 +1,10 @@
 import base64
 import qrcode
 import datetime
+import pandas as pd
+import csv
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -95,6 +99,7 @@ def mark_attendance(request):
         return redirect('submitted')
 
     return render(request, 'attendance/mark_attendance.html')
+
 @login_required
 def view_attendance(request):
     if request.method == "GET":
@@ -108,8 +113,6 @@ def view_attendance(request):
             try:
                 date = datetime.datetime.strptime(date_str, '%B %d, %Y').date()
             except ValueError:
-                # Log the error for debugging purposes
-                print(f"Invalid date format: {date_str}")
                 return render(request, 'attendance/select_date.html', {'error': 'Invalid date format'})
 
         if 'course_code' not in request.POST:
@@ -118,39 +121,58 @@ def view_attendance(request):
 
         course_code = request.POST.get('course_code')
         course = get_object_or_404(Course, code=course_code)
-
-        # Get all students in the course
-        students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no')
-
+        attendance_records = Attendance.objects.filter(course_code=course, date=date).order_by('student__roll_no__number')
+        
+        # Prepare attendance data
+        students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no__number')
         attendance_data = []
         for student in students:
-            total_classes = Attendance.objects.filter(course_code=course, student=student).count()
-            present_classes = Attendance.objects.filter(course_code=course, student=student, status='present').count()
-            attendance_percentage = (present_classes / total_classes) * 100 if total_classes > 0 else 0
-            status = 'present' if attendance_percentage >= 75 else 'absent'
-
-            # Create or update the Attendance record with status
-            attendance, created = Attendance.objects.get_or_create(
-                course_code=course, student=student, date=date,
-                defaults={'status': status}
-            )
-            if not created:
-                attendance.status = status
-                attendance.save()
-
+            status = "Present" if attendance_records.filter(student=student).exists() else "Absent"
             attendance_data.append({
                 'student': student,
-                'total_classes': total_classes,
-                'present_classes': present_classes,
-                'attendance_percentage': attendance_percentage,
-                'status': status,
+                'status': status
             })
 
-        return render(request, 'attendance/view_attendance.html', {
-            'attendance_data': attendance_data,
-            'course': course,
-            'date': date
-        })
+         # Check if the user wants to export the data as PDF
+        if 'export_pdf' in request.POST:
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="attendance_{course.code}_{date}.pdf"'
+
+            # Create the PDF object, using the response object as its "file."
+            p = canvas.Canvas(response, pagesize=letter)
+            width, height = letter
+
+            # Title
+            p.setFont("Helvetica-Bold", 16)
+            p.drawString(100, height - 100, f"Attendance for {course.name} on {date}")
+
+            # Table header
+            p.setFont("Helvetica-Bold", 12)
+            p.drawString(50, height - 150, "Roll Number")
+            p.drawString(150, height - 150, "Student Name")
+            p.drawString(600, height - 150, "Status")
+
+            # Table rows
+            y = height - 170
+            p.setFont("Helvetica", 12)
+            for record in attendance_data:
+                p.drawString(50, y, str(record['student'].roll_no.number))
+                p.drawString(150, y, record['student'].name)
+                p.drawString(600, y, record['status'])
+                y -= 20
+
+                # Check if we need to create a new page
+                if y < 50:
+                    p.showPage()
+                    y = height - 50
+                    p.setFont("Helvetica", 12)
+
+            # Close the PDF object cleanly, and return the response.
+            p.showPage()
+            p.save()
+            return response
+
+        return render(request, 'attendance/view_attendance.html', {'attendance_data': attendance_data, 'course': course, 'date': date})
 
 def faculty_login(request):
     if request.method == 'POST':

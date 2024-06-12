@@ -12,6 +12,7 @@
         <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
         <h2>Attendance Portal</h2>
     </header>
+
     <div class="container">
         <h1>Attendance for {{ course.name }} on {{ date }}</h1>
         <table>
@@ -19,25 +20,25 @@
                 <tr>
                     <th>Roll Number</th>
                     <th>Student Name</th>
-                    <th>Total Classes</th>
-                    <th>Present Classes</th>
-                    <th>Attendance Percentage</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for record in attendance_data %}
-                    <tr>
+                    <tr class="{% if record.status == 'Absent' %}absent{% endif %}">
                         <td>{{ record.student.roll_no.number }}</td>
                         <td>{{ record.student.name }}</td>
-                        <td>{{ record.total_classes }}</td>
-                        <td>{{ record.present_classes }}</td>
-                        <td>{{ record.attendance_percentage }}%</td>
-                        <td>{% if record.status == 'present' %}<span style="color: green;">Present</span>{% else %}<span style="color: red;">Absent</span>{% endif %}</td>
+                        <td>{{ record.status }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <form method="post" action="{% url 'view_attendance' %}">
+            {% csrf_token %}
+            <input type="hidden" name="date" value="{{ date }}">
+            <input type="hidden" name="course_code" value="{{ course.code }}">
+            <button type="submit" name="export_pdf">Export</button>
+        </form>
     </div>
     <footer class="footer">
         <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>

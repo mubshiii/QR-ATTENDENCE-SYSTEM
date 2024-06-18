@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Attendance</title>
+    <title>View Monthly Attendance</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/view_attendance.css' %}">
+    <link rel="stylesheet" href="{% static 'css/view_monthly_attendance.css' %}">
 </head>
 <body>
     <header class="header">
-        <h1 class="header-title">COLLEGE OF ENGINEERING TRIKARIPUR</h1>
+        <h1 class="header-title">College of Engineering Trikaripur</h1>
         <h2>Attendance Portal</h2>
     </header>
     <div class="container">
-        <h1>Attendance for {{ course.name }} on {{ date }}</h1>
+        <h2>Monthly Attendance for {{ course.name }} - {{ month|date:"F Y" }}</h2>
         <table>
             <thead>
                 <tr>
                     <th>Roll Number</th>
                     <th>Student Name</th>
+                    <th>Total Hours</th>
+                    <th>Present Hours</th>
+                    <th>Attendance Percentage</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for record in attendance_data %}
-                    <tr class="{% if record.status == 'Absent' %}absent{% endif %}">
+                <tr class="{% if record.status == 'Below 75%' %}absent{% endif %}">
                         <td>{{ record.student.roll_no.number }}</td>
                         <td>{{ record.student.name }}</td>
+                        <td>{{ record.total_days }}</td>
+                        <td>{{ record.present_days }}</td>
+                        <td>{{ record.attendance_percentage }}%</td>
                         <td>{{ record.status }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <form method="post" action="{% url 'view_attendance' %}">
-            {% csrf_token %}
-            <input type="hidden" name="date" value="{{ date }}">
-            <input type="hidden" name="course_code" value="{{ course.code }}">
-            <button type="submit" name="export_pdf">Export</button>
-            <button type="submit" name="view_attendance">back</button>
-        </form>
+        <a href="{% url 'faculty_home' %}" class="back-button"><i class="fas fa-home"></i> Back to Home</a>
     </div>
     <footer class="footer">
         <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>

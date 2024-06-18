@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Attendance Options</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/view_options.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">College of Engineering Trikaripur</h1>
+        <h2>Attendance Portal</h2>
+    </header>
+    <div class="container">
+        <h2>Select an Option</h2>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <div class="options">
+            <div class="option">
+                <form method="post" action="{% url 'view_attendance' %}">
+                    {% csrf_token %}
+                    <label for="date">View Attendance by Date:</label>
+                    <input type="date" id="date" name="date" required>
+                    <label for="course_code">Course:</label>
+                    <select id="course_code" name="course_code" required>
+                        {% for course in courses %}
+                            <option value="{{ course.code }}">{{ course.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">View Attendance by Date</button>
+                </form>
+            </div>
+            <div class="option">
+                <form method="post" action="{% url 'view_monthly_attendance' %}">
+                    {% csrf_token %}
+                    <label for="month">View Attendance by Month:</label>
+                    <input type="month" id="month" name="month" required>
+                    <label for="course_code">Course:</label>
+                    <select id="course_code" name="course_code" required>
+                        {% for course in courses %}
+                            <option value="{{ course.code }}">{{ course.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">View Attendance by Month</button>
+                </form>
+            </div>
+        </div>
+        <a href="{% url 'faculty_home' %}" class="back-button"><i class="fas fa-home"></i></a>
+    </div>
+    <footer class="footer">
+        <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>
+    </footer>
+</body>
+</html>

@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Student,  Attendance, Course
 from io import BytesIO
 import socket
-from django.db.models import Count
+from django.db.models import Count, F, ExpressionWrapper, FloatField
 
 @login_required
 def faculty_home(request):
@@ -69,31 +69,35 @@ def mark_attendance(request):
         # Get the client's IP address from the request
         client_ip = request.META.get('REMOTE_ADDR')
 
-        # Check if the IP has already marked attendance for this class today
         course_code_value = request.POST.get("course_code")
         course_code = get_object_or_404(Course, code=course_code_value)
-        today_date = datetime.date.today()
+        date_str = request.POST.get('date')
+
+        # Check if date is provided and parse it, otherwise use today's date
+        try:
+            selected_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date() if date_str else datetime.date.today()
+        except ValueError:
+            return render(request, 'attendance/mark_attendance.html', {'course_code': course_code_value, 'error': 'Invalid date format'})
 
         # Check if there is an attendance record for this IP, class, and date
         existing_record = Attendance.objects.filter(
             ip_address=client_ip,
             course_code=course_code,
-            date=today_date
+            date=selected_date
         ).first()
 
         if existing_record:
             return HttpResponseForbidden("Attendance already marked for this IP address")
 
         student_id = request.POST.get("student_id")
-
-        # Create an attendance record for the IP, student, class, and date
         student = get_object_or_404(Student, student_id=student_id)
 
-        attendance_record = Attendance.objects.create(
+        # Create an attendance record for the IP, student, class, and date
+        Attendance.objects.create(
             student=student,
             course_code=course_code,
-            date=today_date,
-            ip_address=client_ip  # Store the IP address with the attendance record
+            date=selected_date,
+            ip_address=client_ip
         )
 
         return redirect('submitted')
@@ -102,77 +106,35 @@ def mark_attendance(request):
 
 @login_required
 def view_attendance(request):
-    if request.method == "GET":
-        return render(request, 'attendance/select_date.html')
-
+    courses = Course.objects.all()
     if request.method == "POST":
-        date_str = request.POST.get('date')
-        try:
-            date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
-        except ValueError:
-            try:
-                date = datetime.datetime.strptime(date_str, '%B %d, %Y').date()
-            except ValueError:
-                return render(request, 'attendance/select_date.html', {'error': 'Invalid date format'})
-
-        if 'course_code' not in request.POST:
-            courses = Course.objects.all()
-            return render(request, 'attendance/list_course.html', {'courses': courses, 'date': date})
-
         course_code = request.POST.get('course_code')
+        date_str = request.POST.get('date')
         course = get_object_or_404(Course, code=course_code)
-        attendance_records = Attendance.objects.filter(course_code=course, date=date).order_by('student__roll_no__number')
-        
-        # Prepare attendance data
+
+        try:
+            selected_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            return render(request, 'attendance/view_options.html', {'courses': courses, 'error': 'Invalid date format'})
+
+        # Query all students in the course
         students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no__number')
+        
+        # Create a list to hold the attendance data
         attendance_data = []
+        
+        # For each student, check if they are present or absent on the selected date
         for student in students:
-            status = "Present" if attendance_records.filter(student=student).exists() else "Absent"
+            is_present = Attendance.objects.filter(course_code=course, student=student, date=selected_date).exists()
             attendance_data.append({
                 'student': student,
-                'status': status
+                'status': 'Present' if is_present else 'Absent'
             })
 
-         # Check if the user wants to export the data as PDF
-        if 'export_pdf' in request.POST:
-            response = HttpResponse(content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename="attendance_{course.code}_{date}.pdf"'
+        return render(request, 'attendance/view_attendance.html', {'attendance_data': attendance_data, 'course': course, 'date': selected_date})
 
-            # Create the PDF object, using the response object as its "file."
-            p = canvas.Canvas(response, pagesize=letter)
-            width, height = letter
+    return render(request, 'attendance/view_options.html', {'courses': courses})
 
-            # Title
-            p.setFont("Helvetica-Bold", 16)
-            p.drawString(100, height - 100, f"Attendance for {course.name} on {date}")
-
-            # Table header
-            p.setFont("Helvetica-Bold", 12)
-            p.drawString(50, height - 150, "Roll Number")
-            p.drawString(150, height - 150, "Student Name")
-            p.drawString(600, height - 150, "Status")
-
-            # Table rows
-            y = height - 170
-            p.setFont("Helvetica", 12)
-            for record in attendance_data:
-                p.drawString(50, y, str(record['student'].roll_no.number))
-                p.drawString(150, y, record['student'].name)
-                p.drawString(600, y, record['status'])
-                y -= 20
-
-                # Check if we need to create a new page
-                if y < 50:
-                    p.showPage()
-                    y = height - 50
-                    p.setFont("Helvetica", 12)
-
-            # Close the PDF object cleanly, and return the response.
-            p.showPage()
-            p.save()
-            return response
-
-        return render(request, 'attendance/view_attendance.html', {'attendance_data': attendance_data, 'course': course, 'date': date})
 
 def faculty_login(request):
     if request.method == 'POST':
@@ -196,7 +158,14 @@ def add_attendance(request):
     if request.method == "POST":
         student_id = request.POST.get("student_id")
         course_code = request.POST.get("course_code")
-        date = request.POST.get("date")
+        date_str = request.POST.get("date")
+
+        # Parse the date from the form
+        try:
+            date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, "Invalid date format.")
+            return redirect('add_attendance')
 
         student = get_object_or_404(Student, student_id=student_id)
         course = get_object_or_404(Course, code=course_code)
@@ -217,13 +186,64 @@ def add_attendance(request):
     courses = Course.objects.all()
     return render(request, 'attendance/add_attendance.html', {'courses': courses})
 
-def  select_date(request):
-    if request.method == 'POST':
-        date = request.POST.get('date')
-        return redirect('list_course', date=date)
-    return render(request, 'select_date.html')
+
 
 def list_course(request, date):
     courses = Course.objects.all()
     return render(request, 'list_course.html', {'date': date, 'courses': courses})
 
+def view_options(request):
+    courses = Course.objects.all()
+    return render(request, 'attendance/view_options.html', {'courses': courses})
+
+@login_required
+def view_monthly_attendance(request):
+    if request.method == "POST":
+        month_str = request.POST.get('month')
+        course_code = request.POST.get('course_code')
+
+        if not month_str:
+            courses = Course.objects.all()
+            return render(request, 'attendance/view_options.html', {'error': 'Invalid month format', 'courses': courses})
+
+        # Parse the month
+        try:
+            month = datetime.datetime.strptime(month_str, '%Y-%m').date()
+        except ValueError:
+            courses = Course.objects.all()
+            return render(request, 'attendance/view_options.html', {'error': 'Invalid month format', 'courses': courses})
+
+        # Get the first and last day of the month
+        first_day = month.replace(day=1)
+        last_day = (first_day + datetime.timedelta(days=32)).replace(day=1) - datetime.timedelta(days=1)
+
+        course = get_object_or_404(Course, code=course_code)
+        attendance_records = Attendance.objects.filter(course_code=course, date__range=(first_day, last_day))
+
+        # Get unique dates for attendance records in the given month
+        unique_dates = attendance_records.values('date').annotate(total=Count('date')).order_by()
+
+        # Prepare monthly attendance data
+        students = Student.objects.filter(branch=course.branch, year=course.year).order_by('roll_no__number')
+        attendance_data = []
+
+        for student in students:
+            total_days = unique_dates.count()  # Total unique days with attendance records
+            present_days = unique_dates.filter(student=student).count()
+            attendance_percentage = (present_days / total_days) * 100
+            attendance_data.append({
+                'student': student,
+                'total_days': total_days,
+                'present_days': present_days,
+                'attendance_percentage': attendance_percentage,
+                'status': 'Below 75%' if attendance_percentage < 75 else 'Above 75%'
+            })
+
+        return render(request, 'attendance/view_monthly_attendance.html', {
+            'attendance_data': attendance_data,
+            'course': course,
+            'month': month
+        })
+    else:
+        courses = Course.objects.all()
+        return render(request, 'attendance/view_options.html', {'courses': courses})

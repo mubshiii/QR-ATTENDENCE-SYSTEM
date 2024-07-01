@@ -36,7 +36,6 @@
             {% csrf_token %}
             <input type="hidden" name="date" value="{{ date }}">
             <input type="hidden" name="course_code" value="{{ course.code }}">
-            <button type="submit" name="export_pdf">Export</button>
             <button type="submit" name="view_attendance">back</button>
         </form>
     </div>

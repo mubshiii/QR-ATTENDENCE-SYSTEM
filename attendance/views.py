@@ -130,9 +130,7 @@ def view_attendance(request):
                 'student': student,
                 'status': 'Present' if is_present else 'Absent'
             })
-
         return render(request, 'attendance/view_attendance.html', {'attendance_data': attendance_data, 'course': course, 'date': selected_date})
-
     return render(request, 'attendance/view_options.html', {'courses': courses})
 
 
@@ -238,6 +236,50 @@ def view_monthly_attendance(request):
                 'attendance_percentage': attendance_percentage,
                 'status': 'Below 75%' if attendance_percentage < 75 else 'Above 75%'
             })
+              # Check if the user wants to export the data as PDF
+        if 'export_pdf' in request.POST:
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="monthly_attendance_{course.code}_{month.strftime("%Y_%m")}.pdf"'
+
+            # Create the PDF object, using the response object as its "file."
+            p = canvas.Canvas(response, pagesize=letter)
+            width, height = letter
+
+            # Title
+            p.setFont("Helvetica-Bold", 16)
+            p.drawString(100, height - 100, f"Monthly Attendance for {course.name} - {month.strftime('%B %Y')}")
+
+            # Table header
+            p.setFont("Helvetica-Bold", 12)
+            p.drawString(15, height - 150, "Roll Number")
+            p.drawString(100, height - 150, "Student Name")
+            p.drawString(260, height - 150, "Total Days")
+            p.drawString(330, height - 150, "Present Days")
+            p.drawString(410, height - 150, "Attendance Percentage")
+            p.drawString(550, height - 150, "Status")
+
+            # Table rows
+            y = height - 170
+            p.setFont("Helvetica", 12)
+            for record in attendance_data:
+                p.drawString(50, y, str(record['student'].roll_no.number))
+                p.drawString(100, y, record['student'].name)
+                p.drawString(290, y, str(record['total_days']))
+                p.drawString(350, y, str(record['present_days']))
+                p.drawString(430, y, f"{record['attendance_percentage']:.2f}%")
+                p.drawString(550, y, record['status'])
+                y -= 20
+
+                # Check if we need to create a new page
+                if y < 50:
+                    p.showPage()
+                    y = height - 50
+                    p.setFont("Helvetica", 12)
+
+            # Close the PDF object cleanly, and return the response.
+            p.showPage()
+            p.save()
+            return response
 
         return render(request, 'attendance/view_monthly_attendance.html', {
             'attendance_data': attendance_data,

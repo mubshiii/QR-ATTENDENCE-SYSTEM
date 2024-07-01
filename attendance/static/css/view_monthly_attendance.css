@@ -110,3 +110,27 @@ footer p {
     margin: 0;
     color: #160101;
 }
+
+.export-button-container {
+    position: absolute;
+    bottom: 90px; /* Distance from the bottom of the container */
+    right: 130px; /* Distance from the right of the container */
+}
+
+.export-button-container button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 8px 8px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underlines */
+    display: inline-block; /* Make it inline-block */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.export-button-container button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

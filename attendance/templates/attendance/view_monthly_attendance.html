@@ -14,6 +14,10 @@
     </header>
     <div class="container">
         <h2>Monthly Attendance for {{ course.name }} - {{ month|date:"F Y" }}</h2>
+        <form method="post" action="{% url 'view_monthly_attendance' %}">
+            {% csrf_token %}
+            <input type="hidden" name="course_code" value="{{ course.code }}">
+            <input type="hidden" name="month" value="{{ month|date:"Y-m" }}">
         <table>
             <thead>
                 <tr>
@@ -38,6 +42,10 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="export-button-container">
+            <button type="submit" name="export_pdf">Export</button>
+        </div>
+    </form>
         <a href="{% url 'faculty_home' %}" class="back-button"><i class="fas fa-home"></i> Back to Home</a>
     </div>
     <footer class="footer">

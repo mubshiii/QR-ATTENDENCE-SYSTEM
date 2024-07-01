@@ -83,7 +83,7 @@ tbody tr:nth-child(even) {
 
 /* Button Styles */
 button {
-    background: #667eea;
+    background:#4CAF50;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -94,7 +94,7 @@ button {
 }
 
 button:hover {
-    background: #5563c1;
+    background: #258503;
 }
 
 /* Footer Styles */

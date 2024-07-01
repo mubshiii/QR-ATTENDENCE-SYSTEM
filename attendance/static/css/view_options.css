@@ -7,7 +7,7 @@ body {
 }
 
 .header {
-    background-color: #007bff;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
     color: #fff;
     padding: 20px 0;
     text-align: center;
@@ -37,7 +37,7 @@ body {
 .container h2 {
     font-size: 1.5em;
     margin-bottom: 20px;
-    color: #007bff;
+    color: #000102;
 }
 
 .options {
@@ -75,7 +75,7 @@ button {
     padding: 10px 15px;
     font-size: 1em;
     color: #fff;
-    background-color: #007bff;
+    background-color:  #4CAF50;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -83,7 +83,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #028821;
 }
 
 .back-button {
@@ -91,9 +91,8 @@ button:hover {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 24px;
-    color: #007bff;
     background-color: transparent;
-    border: 2px solid #007bff;
+    border: 2px solid #20cf0d;
     border-radius: 50%;
     text-align: center;
     text-decoration: none;
@@ -101,11 +100,11 @@ button:hover {
 }
 
 .back-button i {
-    color: #007bff;
+    color: #4CAF50;
 }
 
 .back-button:hover {
-    background-color: #007bff;
+    background-color: #98f899;
     color: #fff;
 }
 
@@ -117,8 +116,8 @@ button:hover {
 .footer {
     text-align: center;
     padding: 20px 0;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #f2f2f2;
+    color: #010101;
     position: absolute;
     bottom: 0;
     width: 100%;

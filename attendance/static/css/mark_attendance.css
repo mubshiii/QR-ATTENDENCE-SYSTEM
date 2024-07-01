@@ -9,7 +9,7 @@ body {
 }
 
 header.header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -63,7 +63,7 @@ form select {
 }
 
 form button {
-    background-color: #007bff;
+    background-color: #4CAF50; 
     color: #fff;
     padding: 0.75rem 1.5rem;
     border: none;

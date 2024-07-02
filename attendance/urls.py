@@ -8,11 +8,8 @@ urlpatterns = [
     path('mark_attendance/', mark_attendance, name='mark_attendance'),
     path('view_attendance/', view_attendance, name='view_attendance'),
     path('add_attendance/', add_attendance, name='add_attendance'),
-    path('faculty/logout/', faculty_logout, name='faculty_logout'),  # URL for logout
-    path('submitted/', attendance_submitted, name='submitted'),  # URL for logout
-   # path('select_date/',select_date, name='select_date'),
-   # path('select_month/', select_month, name='select_month'),
-   # path('list_course/<str:date>/',list_course, name='list_course'),
+    path('faculty/logout/', faculty_logout, name='faculty_logout'),  
+    path('submitted/', attendance_submitted, name='submitted'),  
     path('view_monthly_attendance/',view_monthly_attendance, name='view_monthly_attendance'),
     path('view_options/', view_options, name='view_options'),
 

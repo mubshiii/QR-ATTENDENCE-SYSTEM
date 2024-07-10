@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invalid Course Code</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        .error-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+        .error-message {
+            font-size: 1.5rem;
+            color: #ff5555;
+            margin-bottom: 20px;
+        }
+        .course-code {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .return-link {
+            display: inline-block;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #4ca1af;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .return-link:hover {
+            background-color: #003366;
+        }
+        .return-link i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Course with code <span class="course-code">{{ course_code }}</span> is invalid or does not exist.
+        </div>
+        <a href="{% url 'mark_attendance' %}" class="return-link"><i class="fas fa-arrow-left"></i> Return to Attendance Entry</a>
+    </div>
+</body>
+</html>

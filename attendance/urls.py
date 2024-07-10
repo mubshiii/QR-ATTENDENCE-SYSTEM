@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import generate_qr_code, mark_attendance,add_attendance,view_options,view_monthly_attendance, view_attendance, faculty_login, faculty_logout,faculty_home, attendance_submitted
+from .views import generate_qr_code,mark_attendance,add_attendance,view_options,view_monthly_attendance, view_attendance, faculty_login, faculty_logout,faculty_home, attendance_submitted
 
 urlpatterns = [
     path('', faculty_login, name='faculty_login'),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('submitted/', attendance_submitted, name='submitted'),  
     path('view_monthly_attendance/',view_monthly_attendance, name='view_monthly_attendance'),
     path('view_options/', view_options, name='view_options'),
+   
 
 ]

@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings 
 
 class Branch(models.Model):
     name = models.CharField(max_length=100)
@@ -36,6 +38,8 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     branch = models.ForeignKey(Branch,null=True, on_delete=models.CASCADE)
     year = models.ForeignKey(Year,null=True,on_delete=models.CASCADE)
+    faculty = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)  # Set your default faculty user ID here
+
 
 
     def __str__(self):

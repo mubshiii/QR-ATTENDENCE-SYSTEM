@@ -5,6 +5,7 @@ import pandas as pd
 import csv
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -19,7 +20,10 @@ from django.db.models import Count, F, ExpressionWrapper, FloatField
 
 @login_required
 def faculty_home(request):
-    return render(request, 'attendance/faculty_home.html')
+    user = request.user
+    courses = Course.objects.filter(faculty=user)
+    return render(request, 'attendance/faculty_home.html', {'courses': courses})
+
 
 def attendance_submitted(request):
     return render(request, 'attendance/submitted.html')
@@ -30,7 +34,7 @@ def generate_qr_code(request):
     qr_code_url = None
 
     if course_code:
-        course = get_object_or_404(Course, code=course_code)
+        course = get_object_or_404(Course, code=course_code, faculty=request.user)  # Filter by faculty
 
         ip_address = socket.gethostbyname(socket.gethostname())
 
@@ -80,10 +84,16 @@ def mark_attendance(request):
         ).first()
 
         if existing_record:
-            return HttpResponseForbidden("Attendance already marked for this IP address")
+            return render(request, 'attendance/attendance_already_marked.html', {'ip_address': client_ip})
 
         student_id = request.POST.get("student_id")
-        student = get_object_or_404(Student, student_id=student_id)
+        
+        try:
+            student = Student.objects.get(student_id=student_id)
+            if student.year != course_code.year:
+                raise Student.DoesNotExist
+        except Student.DoesNotExist:
+            return render(request, 'attendance/error.html', {'student_id': student_id, 'course_code': course_code_value})
 
         Attendance.objects.create(
             student=student,
@@ -98,11 +108,12 @@ def mark_attendance(request):
 
 @login_required
 def view_attendance(request):
-    courses = Course.objects.all()
+    user = request.user
+    courses = Course.objects.filter(faculty=user)
     if request.method == "POST":
         course_code = request.POST.get('course_code')
         date_str = request.POST.get('date')
-        course = get_object_or_404(Course, code=course_code)
+        course = get_object_or_404(Course, code=course_code, faculty=user)  # Filter by faculty
 
         try:
             selected_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
@@ -142,6 +153,7 @@ def faculty_logout(request):
 
 @login_required
 def add_attendance(request):
+    user = request.user
     if request.method == "POST":
         student_id = request.POST.get("student_id")
         course_code = request.POST.get("course_code")
@@ -154,7 +166,7 @@ def add_attendance(request):
             return redirect('add_attendance')
 
         student = get_object_or_404(Student, student_id=student_id)
-        course = get_object_or_404(Course, code=course_code)
+        course = get_object_or_404(Course, code=course_code, faculty=user)  # Filter by faculty
 
         attendance, created = Attendance.objects.get_or_create(
             student=student,
@@ -169,27 +181,26 @@ def add_attendance(request):
 
         return redirect('faculty_home')
 
-    courses = Course.objects.all()
+    courses = Course.objects.filter(faculty=user)  # Filter by faculty
     return render(request, 'attendance/add_attendance.html', {'courses': courses})
 
 
-
-def list_course(request, date):
-    courses = Course.objects.all()
-    return render(request, 'list_course.html', {'date': date, 'courses': courses})
-
 def view_options(request):
-    courses = Course.objects.all()
+    current_faculty = request.user  # Assuming request.user is the logged-in user
+    # Filter courses based on the current faculty
+    courses = Course.objects.filter(faculty=current_faculty)
     return render(request, 'attendance/view_options.html', {'courses': courses})
 
 @login_required
 def view_monthly_attendance(request):
+    user = request.user
+
     if request.method == "POST":
         month_str = request.POST.get('month')
         course_code = request.POST.get('course_code')
 
         if not month_str:
-            courses = Course.objects.all()
+            courses = Course.objects.filter(faculty=user)
             return render(request, 'attendance/view_options.html', {'error': 'Invalid month format', 'courses': courses})
 
         try:
@@ -276,5 +287,6 @@ def view_monthly_attendance(request):
             'month': month
         })
     else:
-        courses = Course.objects.all()
+        courses = Course.objects.filter(faculty=user)
         return render(request, 'attendance/view_options.html', {'courses': courses})
+    

@@ -99,3 +99,18 @@ button:hover {
 .footer p {
     font-size: 0.875rem;
 }
+
+.btn-admin {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 5px 5px;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn-admin:hover {
+    background: linear-gradient(to left, #2c3e50, #4ca1af);
+}

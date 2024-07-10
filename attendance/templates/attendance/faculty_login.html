@@ -6,6 +6,7 @@
     <title>Faculty Login</title>
     {% load static %}
 <link rel="stylesheet" href="{% static 'css/faculty_login.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -31,6 +32,8 @@
                 <div>{{ message }}</div>
             {% endfor %}
         {% endif %}
+        <br>
+        <a href="/admin/login/" class="btn-admin"><i class="fas fa-tools"></i> Admin</a>
     </div>
     <footer class="footer">
       <p>&copy; QR Attendance System 2021-25 - CIVILIAN CS</p>

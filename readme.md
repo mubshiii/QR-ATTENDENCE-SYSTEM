@@ -22,7 +22,7 @@ The QR Attendance System is a Django-based web application designed to streamlin
 # Installation
 
 1.Clone the repository:
-    git clone https://github.com/your-username/QR-ATTENDENCE-SYSTEM.git
+    git clone https://github.com/mubshiii/QR-ATTENDENCE-SYSTEM.git
     cd QR-ATTENDENCE-SYSTEM
 
 2.Create and activate a virtual environment:
@@ -45,9 +45,6 @@ The QR Attendance System is a Django-based web application designed to streamlin
     -Faculty Login: Access the faculty dashboard to generate QR codes and view attendance.
     -Student Attendance: Students can scan the QR code using their mobile devices to mark attendance.
     -View Attendance: Faculty can view and manage attendance records by selecting different options.
-
-# License
-    This project is licensed under the MIT License. See the LICENSE file for more details.
 
 # Contributing
     Contributions are welcome! Please open an issue or submit a pull request for any improvements.
